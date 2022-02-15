@@ -38,6 +38,8 @@ class Index
      */
     public function getCount(): Json
     {
+        $header = Request::header();
+        return json($header);
         try {
             $data = (new Counters)->find(1);
             if ($data == null) {
