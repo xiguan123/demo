@@ -143,6 +143,7 @@ class Index
     
     public function getList()
     {
+        
         $vsersion = \think\facade\App::version();
         return json($version);
 //         $url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material";
