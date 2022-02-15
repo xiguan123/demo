@@ -110,34 +110,55 @@ class Index
         }
     }
     
-    //获取素材列表
+//     //获取素材列表
+//     public function getList()
+//     {
+//         $url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material";
+//         $param['type'] = "news";
+//         $param['offset'] = 0;
+//         $param['count'] = 20;
+//         $result = $this->requestCURL($url, $param);
+//         return json($result);
+//     }
+
+//     public function requestCURL($url, $param = null)
+//     {
+//         $ch = curl_init();//初始化curl
+//         curl_setopt($ch, CURLOPT_URL,$url); //要访问的地址
+//         curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+//         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);//跳过证书验证
+//         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); // 从证书中检查SSL加密算法是否存在
+//         if (!empty($param)){
+//             curl_setopt($ch, CURLOPT_POST, 1);
+//             curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
+//         }
+//         $data = json_decode(curl_exec($ch), true);
+//         // $data = curl_exec($ch);
+//         if(curl_errno($ch)){
+//           print_r(curl_error($ch)); //若错误打印错误信息 
+//         }
+//         curl_close($ch);//关闭curl
+//         return $data; //打印信息
+//     }
+    
     public function getList()
     {
         $url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material";
         $param['type'] = "news";
         $param['offset'] = 0;
         $param['count'] = 20;
-        $result = $this->requestCURL($url, $param);
-        return json($result);
-    }
+        $data = http_build_query($param);
 
-    public function requestCURL($url, $param = null)
-    {
-        $ch = curl_init();//初始化curl
-        curl_setopt($ch, CURLOPT_URL,$url); //要访问的地址
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);//跳过证书验证
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); // 从证书中检查SSL加密算法是否存在
-        if (!empty($param)){
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
-        }
-        $data = json_decode(curl_exec($ch), true);
-        // $data = curl_exec($ch);
-        if(curl_errno($ch)){
-          print_r(curl_error($ch)); //若错误打印错误信息 
-        }
-        curl_close($ch);//关闭curl
-        return $data; //打印信息
+        $options = array(
+            'http' => array(
+                'method' => 'POST',
+                //'header' => 'Content-type:application/x-www-form-urlencoded',
+                'content' => $data
+                //'timeout' => 60 // 超时时间（单位:s）
+                )
+        );
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        return json($result);
     }
 }
