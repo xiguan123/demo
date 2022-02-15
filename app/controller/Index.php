@@ -143,22 +143,24 @@ class Index
     
     public function getList()
     {
-        $url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material";
-        $param['type'] = "news";
-        $param['offset'] = 0;
-        $param['count'] = 20;
-        $data = http_build_query($param);
+        $vsersion = \think\facade\App::version();
+        return json($version);
+//         $url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material";
+//         $param['type'] = "news";
+//         $param['offset'] = 0;
+//         $param['count'] = 20;
+//         $data = http_build_query($param);
 
-        $options = array(
-            'http' => array(
-                'method' => 'POST',
-                //'header' => 'Content-type:application/x-www-form-urlencoded',
-                'content' => $data
-                //'timeout' => 60 // 超时时间（单位:s）
-                )
-        );
-        $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-        return json($result);
+//         $options = array(
+//             'http' => array(
+//                 'method' => 'POST',
+//                 //'header' => 'Content-type:application/x-www-form-urlencoded',
+//                 'content' => $data
+//                 //'timeout' => 60 // 超时时间（单位:s）
+//                 )
+//         );
+//         $context = stream_context_create($options);
+//         $result = file_get_contents($url, false, $context);
+//         return json($result);
     }
 }
