@@ -83,7 +83,7 @@ class AppTest extends TestCase
 
     public function testDebug()
     {
-        $this->app->debug(false);
+        $this->app->debug(true);
 
         $this->assertFalse($this->app->isDebug());
 
